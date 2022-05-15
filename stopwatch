@@ -1,0 +1,24 @@
+#!/bin/bash
+
+start=$(date '+%s')
+start_mi=$(date '+%N / 1000000' | bc)
+print(){
+  t=$(( $(date '+%s') - $start ))
+  mi=$(date '+%N / 1000000' | bc)
+  s=$(( $t % 60 ))
+  t=$(( ( $t - $s ) / 60 ))
+  m=$(( $t % 60 ))
+  h=$(( ( $t - $s ) / 60 ))
+  if [ $mi -gt $start_mi ];then
+    mi=$(( $mi - $start_mi ))
+  else
+    s=$(( $s - 1 ))
+    mi=$(( $start_mi - $mi ))
+  fi
+  echo -e "\e[1F\e[2K$(printf '%d:%02d:%02d.%03d' $h $m $s $mi)"
+}
+
+while true;do
+  print
+  sleep 0.1
+done

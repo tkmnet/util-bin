@@ -1,0 +1,34 @@
+#!/bin/sh
+
+if [ -d "./$1" ];then
+  echo $1 is directory
+  exit 1
+fi
+
+if [ -f "./$1" ];then
+  nvim $1
+  chmod a+x $1
+  exit 0
+fi
+
+ID=$(date '+%s')
+TMP_FILE="/tmp/$ID"
+
+echo "#!/bin/sh\n\n" > $TMP_FILE
+HASH=$(md5sum $TMP_FILE)
+
+nvim $TMP_FILE
+
+if [ "$HASH" != "$(md5sum $TMP_FILE)" ];then
+  mv $TMP_FILE $1
+  if [ $? -ne 0 ];then
+    echo "$1 could not be created; $TMP_FILE was not removed"
+    exit 1
+  fi
+  chmod a+x $1
+else
+  echo $1 is not saved
+  rm $TMP_FILE
+  exit 1
+fi
+

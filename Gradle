@@ -1,0 +1,22 @@
+#! /bin/bash
+
+tryrun() {
+  if [ -e "settings.gradle" ] ; then
+    if [ -e "gradlew" ] ; then
+      ./gradlew $@
+    else
+      gradle $@
+    fi
+    exit
+  fi
+}
+
+cd `pwd -P`
+
+while [ "/" != "$(pwd)" ] ; do
+	tryrun $@
+	cd ..
+done
+tryrun
+
+echo "not exist \"settings.gradle\"."

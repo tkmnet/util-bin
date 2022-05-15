@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sh -c "tar c $1 | pigz -p 8 > $1.tar.gz" && rm -rf $1
+

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ $# -lt 1 ];then
+  git stash list
+else
+  if [ "$1" = "pop" ];then
+    git stash pop
+  else
+    if [ "$1" = "push" ];then
+      git stash -u
+    fi
+  fi
+fi
