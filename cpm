@@ -1,0 +1,46 @@
+#!/bin/bash
+
+RAW_SOURCE=$1
+SOURCE=$(echo $RAW_SOURCE | sed -E 's%/$%%')
+RAW_TARGET=$2
+TARGET=$(echo $RAW_TARGET | sed -E 's%/$%%')
+
+if [ $# -ne 2 ];then
+echo Invalied number of argument
+exit 1
+fi
+
+if [ ! -e "$SOURCE" ];then
+echo $SOURCE is not exists
+exit 1
+fi
+
+if [ "$RAW_SOURCE" != "$SOURCE" -a ! -d "$SOURCE" ];then
+echo $SOURCE is not directory
+exit 1
+fi
+
+if [ "$RAW_TARGET" = "$TARGET" -a -e "$TARGET" ];then
+echo $TARGET is exists
+exit 1
+fi
+
+if [ -f "$SOURCE" ];then
+cp "$SOURCE" "$RAW_TARGET"
+exit $?
+else
+BASE=""
+if [ "/" != ${TARGET:0:1} ];then
+BASE="$(pwd)/"
+fi
+cd "$SOURCE"
+ORIGIN="."
+if [ "$RAW_TARGET" != "$TARGET" ];then
+cd ..
+ORIGIN=$(echo "$SOURCE" | sed -E 's%.*/%%')
+fi
+TARGET="${TARGET}/"
+find "$ORIGIN" -type d | xargs -n 1 -P 200 -I '{}' mkdir -p "$BASE$TARGET{}"
+find "$ORIGIN" -type f | xargs -n 1 -P 200 -I '{}' cp "{}" "$BASE$TARGET{}"
+fi
+
