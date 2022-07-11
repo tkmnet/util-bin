@@ -40,7 +40,8 @@ cd ..
 ORIGIN=$(echo "$SOURCE" | sed -E 's%.*/%%')
 fi
 TARGET="${TARGET}/"
-find "$ORIGIN" -type d | xargs -n 1 -P 200 -I '{}' mkdir -p "$BASE$TARGET{}"
-find "$ORIGIN" -type f | xargs -n 1 -P 200 -I '{}' cp "{}" "$BASE$TARGET{}"
+THREAD=$(($(fgrep 'processor' /proc/cpuinfo | wc -l) * 2))
+find "$ORIGIN" -type d | xargs -n 1 -P $THREAD -I '{}' mkdir -p "$BASE$TARGET{}"
+find "$ORIGIN" -type f | xargs -n 1 -P $THREAD -I '{}' cp "{}" "$BASE$TARGET{}"
 fi
 
