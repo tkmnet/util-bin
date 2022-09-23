@@ -1,0 +1,5 @@
+#!/bin/sh
+
+name="$(echo $1 | sed -e 's/\.[sS][vV][gG]//')"
+
+inkscape "$1" -e "$name.png"
