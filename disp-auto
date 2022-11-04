@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ "$1" = "right" ];then
+  SIDE=$1
+else
+  SIDE=left
+fi
+
+xrandr | grep "connected " | sed -e "s/ .*//" | xargs -I '{}' -n 1 xrandr --output {} --off
+
+DISP=$(xrandr | grep " primary " | sed -e "s/ .*//")
+
+if [ "$DISP" = "" ];then
+  DISP=$(xrandr | grep " connected " | head -n 1 | sed -e "s/ .*//")
+fi
+
+xrandr --output $DISP --auto
+
+for NEXT in $(xrandr | grep " connected " | grep -v " primary ");do
+  xrandr --output $NEXT --auto --${SIDE}-of $DISP
+  DISP=$NEXT
+done
+

@@ -1,12 +1,16 @@
 #!/bin/sh
 
+if [ -z "$EDITOR" ];then
+  EDITOR="nvim"
+fi
+
 if [ -d "./$1" ];then
   echo $1 is directory
   exit 1
 fi
 
 if [ -f "./$1" ];then
-  nvim $1
+  $EDITOR $1
   chmod a+x $1
   exit 0
 fi
@@ -17,7 +21,7 @@ TMP_FILE="/tmp/$ID"
 echo "#!/bin/sh\n\n" > $TMP_FILE
 HASH=$(md5sum $TMP_FILE)
 
-nvim $TMP_FILE
+$EDITOR $TMP_FILE
 
 if [ "$HASH" != "$(md5sum $TMP_FILE)" ];then
   mv $TMP_FILE $1

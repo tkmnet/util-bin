@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sleep 1
+date '+%Y%m%d' | xargs -n 1 xdotool type
