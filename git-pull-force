@@ -1,0 +1,5 @@
+#!/bin/sh
+
+CURRENT_ORIGIN=$(git status | grep "'origin/.*'" | sed -e "s%^.*'origin/\(.*\)'.*$%\1%")
+git fetch origin $CURRENT_ORIGIN
+git reset --hard origin/$CURRENT_ORIGIN
