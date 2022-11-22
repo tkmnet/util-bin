@@ -28,6 +28,20 @@ else
     fi
   elif [ "$1" = "p" ];then
     git push
+  elif [ "$1" = "B" ];then
+    if [ $# = 2 ];then
+      git branch $2
+      git switch $2
+      git push -u origin $2
+    else
+      echo "SET NAME" 
+    fi
+  elif [ "$1" = "b" ];then
+    if [ $# = 2 ];then
+      git switch $2
+    else
+      git branch
+    fi
   fi
 fi
 echo "########"
