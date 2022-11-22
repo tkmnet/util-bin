@@ -17,6 +17,15 @@ else
       shift
       git commit -m "$*"
     fi
+  elif [ "$1" = "acp" ];then
+    if [ $# = 1 ];then
+      echo "WRITE MESSAGE" 
+    else
+      shift
+      git add .
+      git commit -m "$*"
+      git push
+    fi
   elif [ "$1" = "p" ];then
     git push
   fi
