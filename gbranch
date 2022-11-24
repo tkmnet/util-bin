@@ -1,7 +1,0 @@
-#!/bin/sh
-
-if [ $# -lt 1 ];then
-  git branch
-else
-  git switch $1
-fi
