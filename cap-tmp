@@ -1,13 +1,4 @@
 #!/bin/bash
 
 file="/tmp/$(date '+%Y%m%d%H%M%S').png"
-if [ "$1" = "-w" ];then
-import -window root $file
-else
-import $file
-fi
-notify-send "captured to $file"
-
-if which gthumb >/dev/null 2>/dev/null; then
-  gthumb $file
-fi
+source "$(dirname $0)/cap.impl"
