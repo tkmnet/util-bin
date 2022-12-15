@@ -44,5 +44,5 @@ else
     fi
   fi
 fi
-echo "########"
+echo "######## " $(git describe --tags) " #"
 git status
