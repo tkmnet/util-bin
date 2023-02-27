@@ -2,4 +2,4 @@
 
 name="$(echo $1 | sed -e 's/\.[sS][vV][gG]//')"
 
-inkscape "$1" -E "$name.eps"
+inkscape "$1" --export-type="eps" --export-filename="$name.eps"
