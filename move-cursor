@@ -1,0 +1,27 @@
+#!/bin/bash
+
+
+eval $(xdotool getmouselocation --shell)
+DISPS=$(xrandr --query | grep " connected" | sed -e 's/.*connected \([0-9]*\)x\([0-9]*\)+\([0-9]*\)+\([0-9]*\).*/\3 \4 \1 \2/g' | sort -nr)
+
+DISPCNT=$(echo "$DISPS" | wc -l)
+NEXT=1
+while IFS= read -r LINE;do
+if [ $X -gt $(echo "$LINE" | cut -d ' ' -f1) ];then
+break
+fi
+NEXT=$(($NEXT + 1))
+done < <(echo "$DISPS")
+
+NEXT=$(($NEXT + 1))
+if [ $NEXT -gt $DISPCNT ];then
+NEXT=1
+fi
+
+SELECTED=$(echo "$DISPS" | tail -n +$NEXT | head -n 1)
+MARGIN_X=$(echo "$SELECTED" | cut -d ' ' -f1)
+MARGIN_Y=$(echo "$SELECTED" | cut -d ' ' -f2)
+DISP_W=$(echo "$SELECTED" | cut -d ' ' -f3)
+DISP_H=$(echo "$SELECTED" | cut -d ' ' -f4)
+xdotool mousemove $(($MARGIN_X + ($DISP_W / 2))) $(($MARGIN_Y + ($DISP_H / 2)))
+
