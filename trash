@@ -1,0 +1,18 @@
+#!/bin/sh
+
+
+DIR=$HOME$(date +'/trash/%y%m/%d/%s')
+MOVED=0
+for t in $*;do
+if [ -e "$t" ];then
+mkdir -p "$DIR"
+mv "$t" "$DIR/"
+MOVED=1
+fi
+done
+
+if [ $MOVED -eq 1 ];then
+echo $DIR
+ls "$DIR"
+fi
+
