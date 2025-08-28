@@ -18,7 +18,9 @@ fi
 ID=$(date '+%s')
 TMP_FILE="/tmp/$ID"
 
-echo -e "#!/bin/sh\n\n" > $TMP_FILE
+echo "#!/bin/sh" > $TMP_FILE
+echo  >> $TMP_FILE
+echo  >> $TMP_FILE
 HASH=$(md5sum $TMP_FILE)
 
 $EDITOR $TMP_FILE
